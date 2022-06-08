@@ -14,7 +14,7 @@ def replace_random_base(DNA_seq):
 		# show mutated base in lowercase
 		return DNA_seq[0:position] + bases[randint(0,2)].lower() + DNA_seq[position + 1:]
 	else:
-		print "Sequence does not appear to be DNA"
+		return "Sequence does not appear to be DNA"
 # test
 print replace_random_base('ATCGGCGATGCAGTACGATACTA')
 print replace_random_base('ATCGGCTACCCGGGTTAATGACA')
