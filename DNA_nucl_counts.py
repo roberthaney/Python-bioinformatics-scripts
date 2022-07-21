@@ -8,11 +8,14 @@ def retrieve_args():
 
 def nucl_count(DNA):
 	"""returns counts of nucleotides in DNA sequence as list"""
-	return [DNA.count("A"), DNA.count("C"), DNA.count("G"), DNA.count("T")]
+	return [("A", str(DNA.count("A"))), ("C", str(DNA.count("C"))), ("G", str(DNA.count("G"))), ("T", str(DNA.count("T")))]
 
 def main():
 	args = retrieve_args()
-	print(nucl_count(args.dna_seq))
+	counts = nucl_count(args.dna_seq)
+	for item in counts:
+		print(" = ".join(item))
+
 
 if __name__=='__main__':
 	main()
