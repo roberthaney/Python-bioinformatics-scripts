@@ -30,13 +30,21 @@ print(gene_averaged_counts["Lhe_031888-RA"]["Ovary"])
 print(gene_averaged_counts["Lhe_031888-RA"]["Tub"])
 print(gene_averaged_counts["Lhe_031888-RA"]["Venom"])
 
-'''
+
 for gene in gene_averaged_counts:
-	max_value = max(gene_averaged_counts[gene])
+	exp_matrix = []
+	for tissue in gene_averaged_counts[gene]:
+		exp_matrix.append(gene_averaged_counts[gene][tissue]) 
+	max_value = max(exp_matrix)
 	normalized_counts[gene] = [] 
-	for count in gene_averaged_counts[gene]:
+	for count in exp_matrix:
 		normalized_counts[gene].append(count/max_value)
 
+print(normalized_counts["Lhe_031887-RA"])
+print(normalized_counts["Lhe_031888-RA"])
+
+
+'''
 for gene in normalized_counts:
 	tau[gene] = 0
 	count_sum = 0
