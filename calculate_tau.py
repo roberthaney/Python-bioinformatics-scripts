@@ -1,6 +1,7 @@
 import numpy as np
 
 fhand = open("BW_rnd3.all.maker.ucode_longest.transcripts_Salmon_edgeR_numreads_matrix.txt")
+fhand_out = open("BW_rnd3.all.maker.ucode_longest.transcripts_Salmon_edgeR_numreads_tau.txt", "w")
 
 gene_averaged_counts = {}
 normalized_counts = {}
@@ -45,7 +46,7 @@ print(normalized_counts["Lhe_031888-RA"])
 
 tau_check = []
 for gene in normalized_counts:
-	tau[gene] = 0
+	#tau[gene] = 0
 	count_sum = 0
 	for count in normalized_counts[gene]:
 		count_sum += 1- count
@@ -53,7 +54,11 @@ for gene in normalized_counts:
 	if not np.isnan(count_sum/(len(normalized_counts[gene]) - 1)):
 		tau[gene] = count_sum/(len(normalized_counts[gene]) - 1)
 		tau_check.append(tau[gene])
-		print(gene, tau[gene])
+		#print(gene, tau[gene])
 
 print("maximum tau value:", max(tau_check))
 print("minimum tau value:", min(tau_check))
+
+# print output file
+for gene in tau:
+	fhand_out.write(gene + "\t" + str(tau[gene]) + "\n")
