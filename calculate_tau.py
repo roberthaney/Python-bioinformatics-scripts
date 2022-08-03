@@ -43,11 +43,17 @@ for gene in gene_averaged_counts:
 print(normalized_counts["Lhe_031887-RA"])
 print(normalized_counts["Lhe_031888-RA"])
 
+tau_check = []
 for gene in normalized_counts:
 	tau[gene] = 0
 	count_sum = 0
 	for count in normalized_counts[gene]:
 		count_sum += 1- count
-	normalized_count_sum = count_sum/len(normalized_counts[gene]) - 1
-	print(gene, normalized_count_sum)
+	# ignore undefined values
+	if not np.isnan(count_sum/(len(normalized_counts[gene]) - 1)):
+		tau[gene] = count_sum/(len(normalized_counts[gene]) - 1)
+		tau_check.append(tau[gene])
+		print(gene, tau[gene])
 
+print("maximum tau value:", max(tau_check))
+print("minimum tau value:", min(tau_check))
