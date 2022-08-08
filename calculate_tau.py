@@ -1,7 +1,7 @@
 import numpy as np
 
-fhand = open("BW_rnd3.all.maker.ucode_longest.transcripts_Salmon_edgeR_numreads_matrix.txt")
-fhand_out = open("BW_rnd3.all.maker.ucode_longest.transcripts_Salmon_edgeR_numreads_tau.txt", "w")
+fhand = open("BW_rnd3.all.maker.ucode_longest.transcripts_Salmon_numreads_matrix.txt")
+fhand_out = open("BW_rnd3.all.maker.ucode_longest.transcripts_Salmon_numreads_tau.txt", "w")
 
 gene_averaged_counts = {}
 normalized_counts = {}
@@ -20,7 +20,8 @@ for line in fhand:
 	gene_averaged_counts[temp[0]]["Ovary"] = np.mean([float(x) for x in temp[11:13]])
 	gene_averaged_counts[temp[0]]["Tub"] = np.mean([float(x) for x in temp[13:15]])
 	gene_averaged_counts[temp[0]]["Venom"] = np.mean([float(x) for x in temp[15:18]])
-
+	gene_averaged_counts[temp[0]]["Pyr"] = np.mean([float(x) for x in temp[18:19]])
+	gene_averaged_counts[temp[0]]["Aci"] = np.mean([float(x) for x in temp[19:20]])
 
 print(gene_averaged_counts["Lhe_031888-RA"]["Agg"])
 print(gene_averaged_counts["Lhe_031888-RA"]["Ceph"])
@@ -30,6 +31,8 @@ print(gene_averaged_counts["Lhe_031888-RA"]["Minor"])
 print(gene_averaged_counts["Lhe_031888-RA"]["Ovary"])
 print(gene_averaged_counts["Lhe_031888-RA"]["Tub"])
 print(gene_averaged_counts["Lhe_031888-RA"]["Venom"])
+print(gene_averaged_counts["Lhe_031888-RA"]["Pyr"])
+print(gene_averaged_counts["Lhe_031888-RA"]["Aci"])
 
 
 for gene in gene_averaged_counts:
@@ -37,11 +40,12 @@ for gene in gene_averaged_counts:
 	for tissue in gene_averaged_counts[gene]:
 		exp_matrix.append(gene_averaged_counts[gene][tissue]) 
 	max_value = max(exp_matrix)
-	normalized_counts[gene] = [] 
-	for count in exp_matrix:
-		normalized_counts[gene].append(count/max_value)
+	# conditional to avoid division by zero
+	if max_value != 0:
+		normalized_counts[gene] = [] 
+		for count in exp_matrix:
+			normalized_counts[gene].append(count/max_value)
 
-print(normalized_counts["Lhe_031887-RA"])
 print(normalized_counts["Lhe_031888-RA"])
 
 tau_check = []
