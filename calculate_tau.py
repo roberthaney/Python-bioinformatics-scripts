@@ -23,25 +23,25 @@ for line in fhand:
 	gene_averaged_counts[temp[0]]["Pyr"] = np.mean([float(x) for x in temp[18:19]])
 	gene_averaged_counts[temp[0]]["Aci"] = np.mean([float(x) for x in temp[19:20]])
 
-print(gene_averaged_counts["Lhe_031888-RA"]["Agg"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Ceph"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Flag"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Major"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Minor"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Ovary"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Tub"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Venom"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Pyr"])
-print(gene_averaged_counts["Lhe_031888-RA"]["Aci"])
 
+#print(gene_averaged_counts["Lhe_031888-RA"]["Agg"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Ceph"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Flag"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Major"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Minor"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Ovary"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Tub"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Venom"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Pyr"])
+#print(gene_averaged_counts["Lhe_031888-RA"]["Aci"])
 
 for gene in gene_averaged_counts:
 	exp_matrix = []
 	for tissue in gene_averaged_counts[gene]:
 		exp_matrix.append(gene_averaged_counts[gene][tissue]) 
-	max_value = max(exp_matrix)
-	# conditional to avoid division by zero
-	if max_value != 0:
+	# low expression filter
+	if sum(exp_matrix) >= 10:
+		max_value = max(exp_matrix)
 		normalized_counts[gene] = [] 
 		for count in exp_matrix:
 			normalized_counts[gene].append(count/max_value)
@@ -53,13 +53,14 @@ for gene in normalized_counts:
 	#tau[gene] = 0
 	count_sum = 0
 	for count in normalized_counts[gene]:
-		count_sum += 1- count
+		count_sum += 1-count
 	# ignore undefined values
 	if not np.isnan(count_sum/(len(normalized_counts[gene]) - 1)):
 		tau[gene] = count_sum/(len(normalized_counts[gene]) - 1)
 		tau_check.append(tau[gene])
 		#print(gene, tau[gene])
 
+print("Number of calculated tau values:", len(tau_check))
 print("maximum tau value:", max(tau_check))
 print("minimum tau value:", min(tau_check))
 
