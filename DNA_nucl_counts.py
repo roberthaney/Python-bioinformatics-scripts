@@ -12,16 +12,26 @@ def retrieve_args() -> Args:
 	args = arg_parser.parse_args()
 	return Args(args.dna_seq)
 
+def validate_sequence(sequence):
+	"""Check that sequence is DNA before mutating"""
+	seq = sequence.upper()
+	return len(seq) == (seq.count("A") + seq.count("C") + seq.count("G") + seq.count("T"))
+
 def nucl_count(DNA):
 	"""returns counts of nucleotides in DNA sequence as list"""
-	return [("A", str(DNA.count("A"))), ("C", str(DNA.count("C"))), ("G", str(DNA.count("G"))), ("T", str(DNA.count("T")))]
+	if validate_sequence(DNA):
+		return [("A", str(DNA.count("A"))), ("C", str(DNA.count("C"))), ("G", str(DNA.count("G"))), ("T", str(DNA.count("T")))]
+	else:
+		return False
 
 def main():
 	args = retrieve_args()
 	counts = nucl_count(args.dna_seq)
-	for item in counts:
-		print(" = ".join(item))
-
+	if counts != False:
+		for item in counts:
+			print(" = ".join(item))
+	else:
+		print("Sequence does not appear to be DNA")
 
 if __name__=='__main__':
 	main()
