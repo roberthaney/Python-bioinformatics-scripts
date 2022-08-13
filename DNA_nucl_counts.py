@@ -17,10 +17,10 @@ def validate_sequence(sequence):
 	seq = sequence.upper()
 	return len(seq) == (seq.count("A") + seq.count("C") + seq.count("G") + seq.count("T"))
 
-def nucl_count(DNA):
+def nucl_count(dna):
 	"""returns counts of nucleotides in DNA sequence as list"""
-	if validate_sequence(DNA):
-		return [("A", str(DNA.count("A"))), ("C", str(DNA.count("C"))), ("G", str(DNA.count("G"))), ("T", str(DNA.count("T")))]
+	if validate_sequence(dna):
+		return [("A", str(dna.upper().count("A"))), ("C", str(dna.upper().count("C"))), ("G", str(dna.upper().count("G"))), ("T", str(dna.upper().count("T")))]
 	else:
 		return False
 
@@ -32,6 +32,7 @@ def main():
 			print(" = ".join(item))
 	else:
 		print("Sequence does not appear to be DNA")
+	print("Total length of sequence:", len(args.dna_seq))
 
 if __name__=='__main__':
 	main()
