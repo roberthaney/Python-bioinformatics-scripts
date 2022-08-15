@@ -24,6 +24,9 @@ def nucl_count(dna):
 	else:
 		return False
 
+def test_counts():
+	assert nucl_count('') == [("A", 0), ("C", 0), ("G", 0), ("T", 0)]
+
 def main():
 	args = retrieve_args()
 	counts = nucl_count(args.dna_seq)
@@ -36,6 +39,6 @@ def main():
 
 if __name__=='__main__':
 	main()
-
+	test_counts()
 
 
